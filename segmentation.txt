@@ -1,0 +1,542 @@
+Annexure 1 -SAS code
+filename rawdata '\\client\C$\Users\Amit\Desktop\MSDA\Practicum\first1k.txt' LRECL=65576;
+
+data work.simmonsdata;
+	infile rawdata;
+	input my_id 1-7 
+        
+       	male 2281
+	     female 2282
+         
+     	      marital_married 2344
+		 marital_widowed 2345
+            marital_divorced 2346
+	      marital_seprated 2347
+		marital_never_married 2348
+
+		finan_now_sig_better_off 4049
+		finan_now_somewhat_better_off 4048 
+		finan_now_about_the_same 4047 
+		finan_now_somewhat_worse_off 4046
+		finan_now_sig_worse_off 4045  
+
+		finan_otlk_sig_better_off 4054
+		finan_otlk_somewhat_better_off 4053 
+		finan_otlk_about_the_same 4052 
+		finan_otlk_somewhat_worse_off 4051 
+		finan_otlk_sig_worse_off 4050
+
+		eco_otlk_sig_better_off 4059
+		eco_otlk_somewhat_better_off 4058
+		eco_otlk_about_the_same 4057 
+		eco_otlk_somewhat_worse_off 4056 
+		eco_otlk_sig_worse_off 4055 
+
+		cash_buyer_agree_a_lot 5973 
+		cash_buyer_agree_a_little 5995 
+		cash_buyer_neither 6039 
+		cash_buyer_disagree_a_little 6061 
+		cash_buyer_disagree_a_lot 6083
+
+		deal_shopper_agree_a_lot 5977 
+		deal_shopper_agree_a_little 5999
+		deal_shopper_neither 6043 
+		deal_shopper_disagree_a_little 6065 
+		deal_shopper_disagree_a_lot 6087
+
+		economical_agree_a_lot 5984 
+		economical_agree_a_little 6006 
+		economical_neither 6050 
+		economical_disagree_a_little 6072
+		economical_disagree_a_lot 6094
+
+		bad_saver_agree_a_lot 5985 
+		bad_saver_agree_a_little 6007 
+		bad_saver_neither 6051 
+		bad_saver_disagree_a_little 6073 
+		bad_saver_disagree_a_lot 6095
+
+		spendthrift_agree_a_lot 5987 
+		spendthrift_agree_a_little 6009 
+		spendthrift_neither 6053
+		spendthrift_disagree_a_little 6075 
+		spendthrift_disagree_a_lot 6097
+
+		debt_averse_agree_a_lot 5988 
+		debt_averse_agree_a_little 6010 
+		debt_averse_neither 6054 
+		debt_averse_disagree_a_little 6076 
+		debt_averse_disagree_a_lot 6098
+
+		finan_secure_agree_a_lot 5979 
+		finan_secure_agree_a_little 6001 
+		finan_secure_neither 6045 
+		finan_secure_disagree_a_little 6067 
+		finan_secure_disagree_a_lot 6089
+
+		risk_taker_agree_a_lot 4453
+		risk_taker_agree_a_little 4534 
+		risk_taker_neither 4696
+		risk_taker_disagree_a_little 4777 
+		risk_taker_disagree_a_lot 4858
+
+		stk_mkt_averse_agree_a_lot 5982
+		stk_mkt_averse_agree_a_little 6004 
+		stk_mkt_averse_neither 6048
+		stk_mkt_averse_disagree_a_little 6070
+		stk_mkt_averse_disagree_a_lot 6092
+
+		conven_seeker_agree_a_lot 5991
+		conven_seeker_agree_a_little 6013
+		conven_seeker_neither 6057
+		conven_seeker_disagree_a_little 6079
+		conven_seeker_disagree_a_lot 6101
+
+		advet_seeker_agree_a_lot 5971
+		advet_seeker_agree_a_little 5993 
+		advet_seeker_neither 6037
+		advet_seeker_disagree_a_little 6059
+		advet_seeker_disagree_a_lot 6081
+
+		content_agree_a_lot 4454
+		content_agree_a_little 4535
+		content_neither 4697
+		content_disagree_a_little 4778
+		content_disagree_a_lot 4859;
+
+run;
+
+data mycalcs;
+	set work.simmonsdata;
+ if male =.  and female =1 then gender =0 ;
+ else if female =. and male =1 then gender = 1;
+ else gender = 2;
+	
+
+	array missy(16,5) 
+ 
+		finan_now_sig_better_off 
+		finan_now_somewhat_better_off  
+		finan_now_about_the_same 
+		finan_now_somewhat_worse_off 
+		finan_now_sig_worse_off 
+
+		finan_otlk_sig_better_off 
+		finan_otlk_somewhat_better_off 
+		finan_otlk_about_the_same 
+		finan_otlk_somewhat_worse_off 
+		finan_otlk_sig_worse_off 
+
+		eco_otlk_sig_better_off 
+		eco_otlk_somewhat_better_off 
+		eco_otlk_about_the_same 
+		eco_otlk_somewhat_worse_off
+		eco_otlk_sig_worse_off  
+
+		cash_buyer_agree_a_lot 
+		cash_buyer_agree_a_little  
+		cash_buyer_neither 
+		cash_buyer_disagree_a_little  
+		cash_buyer_disagree_a_lot 
+
+		deal_shopper_agree_a_lot 
+		deal_shopper_agree_a_little 
+		deal_shopper_neither 
+		deal_shopper_disagree_a_little 
+		deal_shopper_disagree_a_lot 
+
+		economical_agree_a_lot 
+		economical_agree_a_little 
+		economical_neither 
+		economical_disagree_a_little 
+		economical_disagree_a_lot 
+
+		bad_saver_agree_a_lot 
+		bad_saver_agree_a_little 
+		bad_saver_neither 
+		bad_saver_disagree_a_little 
+		bad_saver_disagree_a_lot 
+
+		spendthrift_agree_a_lot 
+		spendthrift_agree_a_little  
+		spendthrift_neither 
+		spendthrift_disagree_a_little  
+		spendthrift_disagree_a_lot 
+
+		debt_averse_agree_a_lot 
+		debt_averse_agree_a_little 
+		debt_averse_neither 
+		debt_averse_disagree_a_little  
+		debt_averse_disagree_a_lot 
+
+		finan_secure_agree_a_lot 
+		finan_secure_agree_a_little 
+		finan_secure_neither  
+		finan_secure_disagree_a_little 
+		finan_secure_disagree_a_lot 
+
+		risk_taker_agree_a_lot 
+		risk_taker_agree_a_little 
+		risk_taker_neither 
+		risk_taker_disagree_a_little 
+		risk_taker_disagree_a_lot 
+
+		stk_mkt_averse_agree_a_lot 
+		stk_mkt_averse_agree_a_little 
+		stk_mkt_averse_neither 
+		stk_mkt_averse_disagree_a_little 
+		stk_mkt_averse_disagree_a_lot 
+
+		conven_seeker_agree_a_lot 
+		conven_seeker_agree_a_little
+		conven_seeker_neither 
+		conven_seeker_disagree_a_little 
+		conven_seeker_disagree_a_lot 
+
+		advet_seeker_agree_a_lot 
+		advet_seeker_agree_a_little  
+		advet_seeker_neither 
+		advet_seeker_disagree_a_little 
+		advet_seeker_disagree_a_lot 
+
+		content_agree_a_lot 
+		content_agree_a_little 
+		content_neither 
+		content_disagree_a_little 	
+		content_disagree_a_lot
+
+	    marital_married 
+		marital_widowed 
+        marital_divorced 
+		marital_seprated 
+		marital_never_married ;
+	
+	/* now make missing values zeroes */
+	do i = 1 to 16;
+		do j = 1 to 5;
+			if missy(i,j) = . then
+				missy(i,j) = 0;
+		end;
+	end;
+
+	/* make array for 16 variable sums */
+	array mysum(16);
+
+	/* sum up the vars and make no mark or > 1 mark missing*/
+	/* now make each variable, being sure to ignore zeroes and > 1 */
+
+	do k = 1 to 16;
+		mysum(k) = missy(k,1)+ missy(k,2)+missy(k,3) + missy(k,4) + missy(k,5);
+	end;
+
+	/* now if the variable is not zero or > 1 create var */
+	array myvar(16);
+
+	do m = 1 to 16;
+		if mysum(m) = 1 then
+			myvar(m) = (missy(m,1)*5) + (missy(m,2)*4)+ (missy(m,3)*3) + (missy(m,4))*2 + (missy(m,5)*1);
+		else myvar(m) = .;
+	end;
+
+	/* now make the var names pretty again */
+	financially_now_better = myvar(1);
+	financial_outlook_pos = myvar(2);
+	economic_outlook_pos = myvar(3);
+	cash_buyer = myvar(4);
+	deal_shopper = myvar(5);
+	economical = myvar(6);
+	bad_saver = myvar(7);
+	spendthrift = myvar(8);
+	debt_averse = myvar(9);
+	financially_secure = myvar(10);
+	risk_taker = myvar(11);
+	stock_market_averse = myvar(12);
+	convenience_seeker = myvar(13);
+	advertisement_seeker = myvar(14);
+	content = myvar(15);
+	marital_status=myvar(16);
+run;
+
+/* now check one out – first grab just a few observations */
+Data small;
+	Set mycalcs (obs=15);
+run;
+
+Proc print data=small;
+	Var 
+		finan_now_sig_better_off 
+		finan_now_somewhat_better_off  
+		finan_now_about_the_same 
+		finan_now_somewhat_worse_off 
+		finan_now_sig_worse_off
+		financially_now_better;
+run;
+
+PROC PRINT DATA=SMALL;
+	Var
+		finan_otlk_sig_better_off 
+		finan_otlk_somewhat_better_off 
+		finan_otlk_about_the_same 
+		finan_otlk_somewhat_worse_off 
+		finan_otlk_sig_worse_off 
+		financial_outlook_pos;
+run;
+
+PROC PRINT DATA=SMALL;
+	Var
+		eco_otlk_sig_better_off 
+		eco_otlk_somewhat_better_off 
+		eco_otlk_about_the_same 
+		eco_otlk_somewhat_worse_off
+		eco_otlk_sig_worse_off  
+		economic_outlook_pos;
+run;
+
+PROC PRINT DATA=SMALL;
+	Var
+		cash_buyer_agree_a_lot 
+		cash_buyer_agree_a_little  
+		cash_buyer_neither 
+		cash_buyer_disagree_a_little  
+		cash_buyer_disagree_a_lot
+		cash_buyer;
+run;
+
+PROC PRINT DATA=SMALL;
+	Var
+		deal_shopper_agree_a_lot 
+		deal_shopper_agree_a_little 
+		deal_shopper_neither 
+		deal_shopper_disagree_a_little 
+		deal_shopper_disagree_a_lot 
+		deal_shopper;
+run;
+
+PROC PRINT DATA=SMALL;
+	Var
+		economical_agree_a_lot 
+		economical_agree_a_little 
+		economical_neither 
+		economical_disagree_a_little 
+		economical_disagree_a_lot 
+		economical;
+run;
+
+PROC PRINT DATA=SMALL;
+	Var
+		bad_saver_agree_a_lot 
+		bad_saver_agree_a_little 
+		bad_saver_neither 
+		bad_saver_disagree_a_little 
+		bad_saver_disagree_a_lot 
+		bad_saver;
+run;
+
+PROC PRINT DATA=SMALL;
+	Var
+		spendthrift_agree_a_lot 
+		spendthrift_agree_a_little  
+		spendthrift_neither 
+		spendthrift_disagree_a_little  
+		spendthrift_disagree_a_lot 
+		spendthrift;
+run;
+
+PROC PRINT DATA=SMALL;
+	Var
+		debt_averse_agree_a_lot 
+		debt_averse_agree_a_little 
+		debt_averse_neither 
+		debt_averse_disagree_a_little  
+		debt_averse_disagree_a_lot 
+		debt_averse;
+run;
+
+PROC PRINT DATA=SMALL;
+	Var
+		finan_secure_agree_a_lot 
+		finan_secure_agree_a_little 
+		finan_secure_neither  
+		finan_secure_disagree_a_little 
+		finan_secure_disagree_a_lot 
+		financially_secure;
+run;
+
+PROC PRINT DATA=SMALL;
+	Var
+		risk_taker_agree_a_lot 
+		risk_taker_agree_a_little 
+		risk_taker_neither 
+		risk_taker_disagree_a_little 
+		risk_taker_disagree_a_lot 
+		risk_taker;
+run;
+
+PROC PRINT DATA=SMALL;
+	Var
+		stk_mkt_averse_agree_a_lot 
+		stk_mkt_averse_agree_a_little 
+		stk_mkt_averse_neither 
+		stk_mkt_averse_disagree_a_little 
+		stk_mkt_averse_disagree_a_lot 
+		stock_market_averse;
+run;
+
+PROC PRINT DATA=SMALL;
+	Var
+		conven_seeker_agree_a_lot 
+		conven_seeker_agree_a_little
+		conven_seeker_neither 
+		conven_seeker_disagree_a_little 
+		conven_seeker_disagree_a_lot 
+		convenience_seeker;
+run;
+
+PROC PRINT DATA=SMALL;
+	Var
+		advet_seeker_agree_a_lot 
+		advet_seeker_agree_a_little  
+		advet_seeker_neither 
+		advet_seeker_disagree_a_little 
+		advet_seeker_disagree_a_lot 
+		advertisement_seeker;
+run;
+
+PROC PRINT DATA=SMALL;
+	Var
+		content_agree_a_lot 
+		content_agree_a_little 
+		content_neither 
+		content_disagree_a_little 	
+		content_disagree_a_lot 
+		content;
+run;
+PROC PRINT DATA=SMALL;
+	Var marital_married 
+		marital_widowed 
+        marital_divorced 
+	    marital_seprated 
+		marital_never_married 
+        marital_status ;
+run;
+data segmentation_data;
+	set mycalcs(keep= financially_now_better financial_outlook_pos  economic_outlook_pos  cash_buyer  deal_shopper 
+		economical  bad_saver  spendthrift debt_averse financially_secure  risk_taker  stock_market_averse convenience_seeker 
+		advertisement_seeker content gender marital_status);
+run;
+
+proc freq 
+	data= segmentation_data order=freq;
+	tables financially_now_better financial_outlook_pos  economic_outlook_pos  cash_buyer  deal_shopper 
+		economical  bad_saver  spendthrift debt_averse financially_secure  risk_taker  stock_market_averse convenience_seeker 
+		advertisement_seeker content gender marital_status/ plots=freqplot;
+run;
+
+ods graphics off;
+
+PROC GCHART DATA= segmentation_data;
+	PIE financially_now_better financial_outlook_pos  economic_outlook_pos  cash_buyer  deal_shopper 
+		economical  bad_saver  spendthrift debt_averse financially_secure  risk_taker  stock_market_averse convenience_seeker 
+		advertisement_seeker content gender marital_status/ DISCRETE VALUE=INSIDE
+		PERCENT=INSIDE SLICE=OUTSIDE;
+run;
+
+ods graphics on;
+
+proc factor data=segmentation_data method=principal rotate=varimax nfactors=5 plots= (scree loadings) out=cluster_data;
+	var 
+		financially_now_better
+		financial_outlook_pos 
+		economic_outlook_pos 
+		cash_buyer 
+		deal_shopper 
+		economical 
+		bad_saver 
+		spendthrift 
+		debt_averse 
+		financially_secure  
+		risk_taker  
+		stock_market_averse 
+		convenience_seeker 
+		advertisement_seeker 
+		content;
+run;
+
+ods graphics off;
+data cluster_data1;
+	set cluster_data ;
+	/* now make the var names pretty again */
+	prosperous_content = Factor1;
+    spendthrift_positive = Factor2;
+    recovering = Factor3;
+	stressed_customer=Factor4;
+	cautious_content=Factor5;
+run;
+proc print data=cluster_data1 (obs =15);
+	var prosperous_content
+    spendthrift_positive 
+    recovering 
+	stressed_customer
+	cautious_content;
+run;
+
+PROC STANDARD DATA=cluster_data1 MEAN=0 STD=1 OUT=cluster_data_std;
+	VAR debt_averse 
+		stock_market_averse 
+		convenience_seeker;
+run;
+ods graphics off;
+
+proc print data=cluster_data_std (obs =15);
+	var prosperous_content
+    spendthrift_positive 
+    recovering 
+	stressed_customer
+	cautious_content
+	debt_averse 
+	stock_market_averse 
+	convenience_seeker;
+	run;
+	ods graphics on;
+	proc fastclus data=cluster_data_std maxc=7 maxiter=1000 out=out;
+		var 
+			prosperous_content
+			spendthrift_positive
+			debt_averse 
+			stock_market_averse 
+			convenience_seeker
+		;
+	run;
+proc candisc data=out out=can;
+var prosperous_content
+	spendthrift_positive	
+		debt_averse 
+		stock_market_averse 
+		convenience_seeker ;
+class cluster;
+run;
+proc plot;
+plot can2*can1=cluster;
+run;
+proc means data=out;
+	var
+		prosperous_content
+		spendthrift_positive
+	;
+	class cluster;
+run;
+proc print data=out;
+run;
+/* do means for non-driver variables by cluster */
+proc means data=out;
+	var
+		debt_averse 
+		stock_market_averse 
+		convenience_seeker
+		gender
+		marital_status
+	;
+	class cluster;
+run;
+proc print data=out;
+run;
